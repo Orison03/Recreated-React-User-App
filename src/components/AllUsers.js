@@ -3,9 +3,10 @@ import User from "./User";
 
 function AllUsers({ deleteUser, handleEdit }) {
   const { users } = useSelector((store) => store);
+  console.log(users);
   return (
     <>
-      <div className="container" style={{marginTop: "1.2em"}}>
+      <div className="container" style={{ marginTop: "1.2em" }}>
         <div className="row">
           {users.map((item, index) => {
             return (

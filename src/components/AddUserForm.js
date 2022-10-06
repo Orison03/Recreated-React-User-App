@@ -4,14 +4,18 @@ import Form from "react-bootstrap/Form";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch, connect } from "react-redux";
 import { AddNewUser } from "../actions/userActions";
-
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../Firebase/configer";
 function AddUserForm({ AddNewUser }) {
   const [name, setName] = useState("");
   const [position, setPosition] = useState("");
   const [jerseyNumber, setJerseyNumber] = useState("");
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    AddNewUser({ name, position,jerseyNumber, id: uuidv4() });
+
+    let addForm = { name, position, jerseyNumber, id: uuidv4() };
+    await setDoc(doc(db, "allUsers", addForm.id), { addForm });
+    // AddNewUser({ name, position,jerseyNumber, id: uuidv4() });
     setName("");
     setPosition("");
     setJerseyNumber("");
