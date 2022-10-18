@@ -3,14 +3,20 @@ import { Modal } from "react-bootstrap";
 import EditUserForm from "./EditUserForm";
 import { useDispatch } from "react-redux";
 import { DeleteUser } from "../actions/userActions";
+import { doc, deleteDoc, updateDoc } from "firebase/firestore";
+import { db } from "../Firebase/configer";
+
 
 function User({ userData, deleteUser, handleEdit }) {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const handleDelete = () => {
-    dispatch(DeleteUser(userData.id));
+  const handleDelete = async() => {
+   
+      await deleteDoc(doc(db, "allUsers", userData.id));
+  
+    // dispatch(DeleteUser(userData.id));
   };
   return (
     <>

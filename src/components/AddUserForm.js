@@ -6,6 +6,7 @@ import { useDispatch, connect } from "react-redux";
 import { AddNewUser } from "../actions/userActions";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../Firebase/configer";
+
 function AddUserForm({ AddNewUser }) {
   const [name, setName] = useState("");
   const [position, setPosition] = useState("");
@@ -14,7 +15,7 @@ function AddUserForm({ AddNewUser }) {
     e.preventDefault();
 
     let addForm = { name, position, jerseyNumber, id: uuidv4() };
-    await setDoc(doc(db, "allUsers", addForm.id), { addForm });
+    await setDoc(doc(db, "allUsers", addForm.id),  addForm );
     // AddNewUser({ name, position,jerseyNumber, id: uuidv4() });
     setName("");
     setPosition("");

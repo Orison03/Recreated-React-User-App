@@ -3,6 +3,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useDispatch } from "react-redux";
 import { EditUser } from "../actions/userActions";
+import { doc, deleteDoc, updateDoc } from "firebase/firestore";
+import { db } from "../Firebase/configer";
 
 function EditUserForm({ userData, deleteUser, handleEdit, hide }) {
   const dispatch = useDispatch();
@@ -10,8 +12,15 @@ function EditUserForm({ userData, deleteUser, handleEdit, hide }) {
   const [name, setName] = useState(userData.name);
   const [position, setPosition] = useState(userData.position);
   const [jerseyNumber, setJerseyNumber] = useState(userData.jerseyNumber);
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
+    let userInfo = { id: userData.id, name, position, jerseyNumber };
+        try {
+        const userRef = doc(db, "allUsers", userData.id);
+        await updateDoc(userRef, userInfo);
+        } catch (error) {
+        console.log(error);
+        }
     dispatch(EditUser({ id: userData.id, name, position, jerseyNumber }));
     setName("");
     setPosition("");
